@@ -1,0 +1,39 @@
+# pygeodl
+
+Download geoscience data with ease.
+
+Currently suopports:
+- UNAVCO: GNSS
+
+## Installation
+
+You can install `pygeodl` using pip:
+
+```bash
+pip install pygeodl
+```
+
+If you want to install it directly from the repository, you can do:
+
+```bash
+pip install git+https://github.com/mp-v2/pygeodl.git
+```
+
+## Usage
+
+Here is a simple example of how to use `pygeodl` to download GNSS data from the UNAVCO repository.
+
+```python
+import pygeodl.gnss as gnss
+
+# Create a downloader instance for UNAVCO
+downloader = gnss.unavco()
+
+# Request data for a specific station and time period
+df = downloader.request(station="P201", start_date="2020-01-01", end_date="2020-01-02")
+
+# Print the first few rows of the dataframe
+print(df.head())
+```
+
+This will output a pandas DataFrame with the requested GNSS data.
