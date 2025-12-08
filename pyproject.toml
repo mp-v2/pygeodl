@@ -19,7 +19,7 @@ maintainers = [
 description = "Download geoscience data with ease."
 readme = "README.md"
 license = "MIT"
-keywords = ["geoscience", "data", "download", "gnss", "unavco]
+keywords = ["geoscience", "data", "download", "gnss", "unavco"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python"
