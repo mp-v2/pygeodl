@@ -14,7 +14,7 @@ authors = [
   {name = "Morgan Plain", email = "morgan@placeholder.com"},
 ]
 maintainers = [
-  {name = "Brett Cannon", email = "brett@example.com"}
+  {name = "Morgan Plain", email = "morgan@placeholder.com"}
 ]
 description = "Download geoscience data with ease."
 readme = "README.md"
