@@ -2,6 +2,7 @@
 __pycache__/
 
 # Distribution / packaging
+dist/
 downloads/
 
 # Unit test / coverage reports
