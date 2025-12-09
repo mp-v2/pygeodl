@@ -17,6 +17,23 @@ from contextlib import nullcontext as does_not_raise
 #     ],
 # )
 
+def test_unavco_find_basic():
+    downloader = gnss.unavco()
+    df = downloader.find(
+        minlatitude=43.0,
+        maxlatitude=60.0,
+        minlongitude=-122.0,
+        maxlongitude=-120.0,
+        starttime="2012-01-01",
+        endtime="2025-01-01",
+        summary=False
+    )
+    assert not df.empty
+    assert 'id' in df.columns
+    assert 'station_name' in df.columns
+    assert 'latitude' in df.columns
+    assert 'longitude' in df.columns
+
 def test_unavco_request_basic():
     downloader = gnss.unavco()
     df = downloader.request(station="P201", starttime="2020-01-01", endtime="2020-01-02")

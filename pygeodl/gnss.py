@@ -19,6 +19,40 @@ class unavco():
         self.base_url = "https://web-services.unavco.org"
         self.expected_format = "text/csv; charset=utf-8"
 
+    def find(
+            self,
+            minlatitude: float,
+            maxlatitude: float,
+            minlongitude: float,
+            maxlongitude: float,
+            starttime: str,
+            endtime: str,
+            summary: bool = False
+            ) -> pd.DataFrame:
+        """
+        Method for finding available GNSS stations.
+        """
+        url = f"{self.base_url}/gps/metadata/sites/v1"
+        params = dict(
+            minlatitude=minlatitude,
+            maxlatitude=maxlatitude,
+            minlongitude=minlongitude,
+            maxlongitude=maxlongitude,
+            starttime=starttime,
+            endtime=endtime,
+            summary=str(summary).lower()
+        )
+        headers = {
+            'Accept': 'application/json'
+        }
+        response = requests.get(url, params=params, headers=headers)
+        logger.info(f"Request URL: {response.request.url}")
+        response.raise_for_status()
+        data = response.json()
+        df = pd.DataFrame.from_records(data)
+        return df
+        
+
     def request(
                 self,
                 station: str, 
