@@ -6,6 +6,8 @@ Currently suopports:
 - UNAVCO: GNSS
 - BGS: Seismic events
 
+Feel free to request other data sources be added, via [GitHub issues](https://github.com/mp-v2/pygeodl/issues).
+
 ## Installation
 
 You can install `pygeodl` using pip:
@@ -50,3 +52,9 @@ print(df.head())
 ```
 
 This will output a pandas DataFrame with the requested GNSS data.
+
+## Examples
+
+Working example scripts can be found in the examples folder.
+- examples/get_unavco_gnss.py
+- examples/get_bgs_seismic.py
