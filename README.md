@@ -6,7 +6,7 @@ Currently suopports:
 - UNAVCO: GNSS
 - BGS: Seismic events
 
-Feel free to request other data sources be added, via [GitHub issues](https://github.com/mp-v2/pygeodl/issues).
+Feel free to request other data sources be added, via [GitHub issues](https://github.com/mp-v2/pygeodl/issues/new).
 
 ## Installation
 
