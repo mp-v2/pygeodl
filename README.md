@@ -4,6 +4,7 @@ Download geoscience data with ease.
 
 Currently suopports:
 - UNAVCO: GNSS
+- BGS: Seismic events
 
 ## Installation
 

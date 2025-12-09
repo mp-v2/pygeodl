@@ -92,11 +92,10 @@ class unavco():
             raise ValueError("Unexpected response format")
 
         #TODO parse header data as metadata
-        df = pd.read_csv(io.StringIO(response.text), comment='#')
-        #df.set_index('Datetime', inplace=True)
+        df = pd.read_csv(io.StringIO(response.text), comment='#', skipinitialspace=True)
+        # skipinitialspace=True helps with leading spaces after commas in column names
 
-        # Remove leading/trailing whitespace from column names
-        df.columns = [col.strip() for col in df.columns]
+        #df.set_index('Datetime', inplace=True)
 
         return df
 
