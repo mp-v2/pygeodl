@@ -11,7 +11,8 @@ import typing
 from loguru import logger
 from bs4 import BeautifulSoup
 
-class bgs():
+
+class bgs:
     """
     A class to handle downloading seismic data from the BGS repository.
     """
@@ -81,19 +82,34 @@ class bgs():
         logger.info(f"Request URL: {response.request.url}")
         response.raise_for_status()
 
-        if response.headers.get('Content-Type') != self.expected_format:
+        if response.headers.get("Content-Type") != self.expected_format:
             raise ValueError("Unexpected response format")
-        
+
         soup = BeautifulSoup(response.text, "html.parser")
         csv_text = soup.body.get_text()
-        
-        known_columns = ["yyyy-mm-dd", "hh:mm:ss.ss", "lat", "lon", "depth", "magnitude", "induced", "locality", "locality2"]
-        df = pd.read_csv(io.StringIO(csv_text), skipinitialspace=True, names=known_columns, skiprows=2)
+
+        known_columns = [
+            "yyyy-mm-dd",
+            "hh:mm:ss.ss",
+            "lat",
+            "lon",
+            "depth",
+            "magnitude",
+            "induced",
+            "locality",
+            "locality2",
+        ]
+        df = pd.read_csv(
+            io.StringIO(csv_text),
+            skipinitialspace=True,
+            names=known_columns,
+            skiprows=2,
+        )
         # skipinitialspace=True helps with leading spaces after commas in column names
         # skiprows=2 to skip the empty top line and the actual header line
 
         # Locality contains commas, so parsed as locality and locality2 columns, then combined
-        df['locality'] =df['locality'].str.strip() + ", " + df['locality2'].str.strip()
+        df["locality"] = df["locality"].str.strip() + ", " + df["locality2"].str.strip()
         df.drop("locality2", axis=1, inplace=True)
 
         return df

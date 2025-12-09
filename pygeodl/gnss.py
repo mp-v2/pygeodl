@@ -10,7 +10,8 @@ import io
 import typing
 from loguru import logger
 
-class unavco():
+
+class unavco:
     """
     A class to handle downloading GNSS data from the UNAVCO repository.
     """
@@ -20,15 +21,15 @@ class unavco():
         self.expected_format = "text/csv; charset=utf-8"
 
     def find(
-            self,
-            minlatitude: float,
-            maxlatitude: float,
-            minlongitude: float,
-            maxlongitude: float,
-            starttime: str,
-            endtime: str,
-            summary: bool = False
-            ) -> pd.DataFrame:
+        self,
+        minlatitude: float,
+        maxlatitude: float,
+        minlongitude: float,
+        maxlongitude: float,
+        starttime: str,
+        endtime: str,
+        summary: bool = False,
+    ) -> pd.DataFrame:
         """
         Method for finding available GNSS stations.
         """
@@ -40,30 +41,29 @@ class unavco():
             maxlongitude=maxlongitude,
             starttime=starttime,
             endtime=endtime,
-            summary=str(summary).lower()
+            summary=str(summary).lower(),
         )
-        headers = {
-            'Accept': 'application/json'
-        }
+        headers = {"Accept": "application/json"}
         response = requests.get(url, params=params, headers=headers)
         logger.info(f"Request URL: {response.request.url}")
         response.raise_for_status()
         data = response.json()
         df = pd.DataFrame.from_records(data)
         return df
-        
 
     def request(
-                self,
-                station: str, 
-                starttime: str, #Examples: 2012-01-01T00:00:00 or 2012-01-01 Defaults to first date available.
-                endtime: str, #Examples: 2012-03-01T00:00:00 or 2012-03-01 Defaults to last date available.
-                analysisCenter: typing.Literal["cwu", "nmt", "pbo"] = "cwu",
-                referenceFrame: typing.Literal["nam14", "igs14", "nam08", "igs08"] = "nam14",
-                report: typing.Literal["short", "long"] = "short",
-                dataPostProcessing: typing.Literal["Uncleaned", "Cleaned"] = "Uncleaned",
-                refCoordOption: typing.Literal["from_analysis_center", "first_epoch"] = "from_analysis_center"
-            ) -> pd.DataFrame:
+        self,
+        station: str,
+        starttime: str,  # Examples: 2012-01-01T00:00:00 or 2012-01-01 Defaults to first date available.
+        endtime: str,  # Examples: 2012-03-01T00:00:00 or 2012-03-01 Defaults to last date available.
+        analysisCenter: typing.Literal["cwu", "nmt", "pbo"] = "cwu",
+        referenceFrame: typing.Literal["nam14", "igs14", "nam08", "igs08"] = "nam14",
+        report: typing.Literal["short", "long"] = "short",
+        dataPostProcessing: typing.Literal["Uncleaned", "Cleaned"] = "Uncleaned",
+        refCoordOption: typing.Literal[
+            "from_analysis_center", "first_epoch"
+        ] = "from_analysis_center",
+    ) -> pd.DataFrame:
         """
         Request GNSS data from the UNAVCO repository.
 
@@ -81,21 +81,20 @@ class unavco():
             referenceFrame=referenceFrame,
             report=report,
             dataPostProcessing=dataPostProcessing,
-            refCoordOption=refCoordOption
+            refCoordOption=refCoordOption,
         )
         response = requests.get(url, params=params)
         logger.info(f"Request URL: {response.url}")
         # response = requests.get(url)
         response.raise_for_status()
 
-        if response.headers.get('Content-Type') != self.expected_format:
+        if response.headers.get("Content-Type") != self.expected_format:
             raise ValueError("Unexpected response format")
 
-        #TODO parse header data as metadata
-        df = pd.read_csv(io.StringIO(response.text), comment='#', skipinitialspace=True)
+        # TODO parse header data as metadata
+        df = pd.read_csv(io.StringIO(response.text), comment="#", skipinitialspace=True)
         # skipinitialspace=True helps with leading spaces after commas in column names
 
-        #df.set_index('Datetime', inplace=True)
+        # df.set_index('Datetime', inplace=True)
 
         return df
-

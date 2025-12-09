@@ -19,7 +19,7 @@ def test_bgs_request_basic():
         maxlongitude=5.0,
         mindepth=1.0,
         maxdepth=10.0,
-        output="csv"
+        output="csv",
     )
     assert not df.empty
     assert df.iloc[0]["yyyy-mm-dd"] == "2025-01-01"
